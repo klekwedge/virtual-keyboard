@@ -76,6 +76,7 @@ const keyboard = [
     ["ControlRight", "Ctrl", "Ctrl", "Ctrl", "Ctrl"],
   ],
 ];
+let registerMode = "lowercase";
 
 function createElement(tag, parent, classes) {
   const newElement = document.createElement(tag);
@@ -91,27 +92,83 @@ function createElement(tag, parent, classes) {
 }
 
 createElement("div", document.body, "_container");
-createElement(
-  "textarea",
-  document.querySelector("._container"),
-  "keyboard__textarea"
-);
-createElement("div", document.querySelector("._container"), "keyboard__keys");
 
-for (let i = 0; i < keyboard.length; i++) {
-  const keyboardRow = document.createElement("ul");
-  keyboardRow.classList.add("keyboard__row");
-  document.querySelector(".keyboard__keys").append(keyboardRow);
+const textarea = document.createElement("textarea");
+textarea.classList.add("keyboard__textarea");
+document.querySelector("._container").append(textarea);
 
-  for (let j = 0; j < keyboard[i].length; j++) {
-    const keyboardKey = document.createElement("li");
-    keyboardKey.textContent = keyboard[i][j][1];
-    keyboardKey.classList.add("keyboard__key");
-    keyboardRow.append(keyboardKey);
+const keyboardKeys = document.createElement("div");
+keyboardKeys.classList.add("keyboard__keys");
+document.querySelector("._container").append(keyboardKeys);
 
-    keyboardKey.addEventListener("click", () => {
-      document.querySelector(".keyboard__textarea").textContent +=
-        keyboardKey.textContent;
-    });
+createKeys(registerMode);
+
+document.addEventListener("keydown", (event) => {
+  addNewSymbol(event);
+});
+
+function createKeys(registerMode) {
+  keyboardKeys.innerHTML = "";
+  for (let i = 0; i < keyboard.length; i++) {
+    const keyboardRow = document.createElement("ul");
+    keyboardRow.classList.add("keyboard__row");
+    document.querySelector(".keyboard__keys").append(keyboardRow);
+
+    for (let j = 0; j < keyboard[i].length; j++) {
+      const keyboardKey = document.createElement("li");
+
+      if (registerMode === "lowercase") {
+        keyboardKey.textContent = keyboard[i][j][1];
+      } else {
+        keyboardKey.textContent = keyboard[i][j][2];
+      }
+
+      keyboardKey.classList.add("keyboard__key", `${keyboard[i][j][0]}`);
+      keyboardRow.append(keyboardKey);
+
+      keyboardKey.addEventListener("click", (event) => {
+        console.log(event.target.classList[1]);
+        textarea.textContent += keyboardKey.textContent;
+      });
+    }
+  }
+}
+
+function addNewSymbol(event) {
+  document.querySelector(`.${event.code}`).style.backgroundColor = "#02524C";
+  if (event.code.includes("Key") || event.code.includes("Digit")) {
+    textarea.textContent += event.key;
+  }
+
+  setTimeout(() => {
+    document.querySelector(`.${event.code}`).style.backgroundColor = "#128277";
+  }, 100);
+
+  switch (event.code) {
+    case "CapsLock":
+      if (registerMode === "lowercase") {
+        registerMode = "uppercase";
+      } else {
+        registerMode = "lowercase";
+      }
+
+      createKeys(registerMode);
+
+      break;
+    case "Delete":
+      //   textarea.textContent = "";
+      break;
+    case "Backspace":
+      textarea.textContent = textarea.textContent.substring(
+        0,
+        textarea.textContent.length - 1
+      );
+      break;
+    case "Space":
+      textarea.textContent += " ";
+      break;
+    case "Tab":
+      textarea.textContent += "        ";
+      break;
   }
 }
