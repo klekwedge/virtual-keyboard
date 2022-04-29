@@ -76,6 +76,26 @@ const keyboard = [
     ["ControlRight", "Ctrl", "Ctrl", "Ctrl", "Ctrl"],
   ],
 ];
+
+const specialKeyArr = [
+  "Backspace",
+  "Tab",
+  "Delete",
+  "CapsLock",
+  "Enter",
+  "ShiftLeft",
+  "ArrowUp",
+  "ShiftRight",
+  "ControlLeft",
+  "MetaLeft",
+  "AltLeft",
+  "AltRight",
+  "ArrowLeft",
+  "ArrowDown",
+  "ArrowRight",
+  "ControlRight",
+];
+
 let registerMode = "lowercase";
 
 function createElement(tag, parent, classes) {
@@ -127,16 +147,24 @@ function createKeys(registerMode) {
       keyboardRow.append(keyboardKey);
 
       keyboardKey.addEventListener("click", (event) => {
-        console.log(event.target.classList[1]);
-        textarea.textContent += keyboardKey.textContent;
+        console.log(specialCharacterCheck(event.target.classList[1]));
+
+        if (!specialCharacterCheck(event.target.classList[1])) {
+          textarea.textContent += keyboardKey.textContent;
+        }
       });
     }
   }
 }
 
+function specialCharacterCheck(keyDesignation) {
+  return specialKeyArr.includes(keyDesignation);
+}
+
 function addNewSymbol(event) {
   document.querySelector(`.${event.code}`).style.backgroundColor = "#02524C";
-  if (event.code.includes("Key") || event.code.includes("Digit")) {
+  console.log(event.code);
+  if (!specialCharacterCheck(event.code)) {
     textarea.textContent += event.key;
   }
 
@@ -151,7 +179,6 @@ function addNewSymbol(event) {
       } else {
         registerMode = "lowercase";
       }
-
       createKeys(registerMode);
 
       break;
