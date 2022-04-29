@@ -70,19 +70,19 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  gap: 20px 20px;
+  // justify-content: center;
+  // margin: 0 auto;
+  gap: 15px 15px;
   background-color: #c4dfe6;
-  padding: 20px 0px;
+  padding: 20px 20px;
   border-radius: 2px;
 }
 
 .keyboard__row {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  margin: 0 auto;
+  // justify-content: center;
+  // margin: 0 auto;
   gap: 15px 15px;
 }
 
@@ -104,4 +104,12 @@ textarea {
     transition: 0.1s;
     transform: scale(0.9);
   }
+}
+
+.Space {
+  min-width: 300px;
+}
+
+.ShiftLeft {
+  // min-width: 230px;
 }
