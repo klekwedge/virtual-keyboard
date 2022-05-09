@@ -105,6 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function addNewSymbol(keyCode, keyName) {
     if (!specialCharacterCheck(keyCode)) {
       textarea.value += keyName;
+      console.log(textarea.selectionStart)
+      // textarea.value = textarea.value.slice(0, textarea.selectionStart) + textarea.value.slice(textarea.selectionStart + 1);
     } else {
       switch (keyCode) {
         case "CapsLock":
@@ -120,7 +122,15 @@ document.addEventListener("DOMContentLoaded", () => {
           textarea.value += "\n";
           break;
         case "Delete":
-          // textarea.value = "";
+          if (textarea.value !== "") {
+            console.log(textarea.selectionStart);
+            textarea.value = textarea.value.slice(0, textarea.selectionStart) + textarea.value.slice(textarea.selectionStart + 1);
+            // textarea.selectionStart --;
+            // textarea.selectionEnd = 1;
+          } else {
+            console.log("!");
+          }
+
           break;
         case "Backspace":
           textarea.value = textarea.value.substring(
@@ -132,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
           textarea.value += " ";
           break;
         case "Tab":
-          textarea.value += "        ";
+          textarea.value += "    ";
           break;
         case "ArrowLeft":
           moveBack();
@@ -142,10 +152,8 @@ document.addEventListener("DOMContentLoaded", () => {
           break;
       }
     }
-    // console.log(getCursorPosition(textarea));
   }
-  // move forward
-  // move back
+
   function moveForward() {
     const el = document.querySelector("textarea");
     el.selectionStart++;
