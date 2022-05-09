@@ -98,12 +98,13 @@ textarea {
   text-align: center;
   cursor: pointer;
   // min-height: 65px;
-  // &:active {
-  //   transition: 0.4s;
-  //   background-color: #004d47;
-  // }
 
-
+  &:active {
+    transition: 0.1s;
+    background-color: #004d47;
+    border-radius: 8px;
+    transform: scale(0.9);
+  }
 }
 
 .keyboard__key._active {

@@ -198,6 +198,15 @@ textarea {
   cursor: pointer;
 }
 
+.keyboard__key:active {
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  background-color: #004d47;
+  border-radius: 8px;
+  -webkit-transform: scale(0.9);
+          transform: scale(0.9);
+}
+
 .keyboard__key._active {
   -webkit-transition: 0.2s;
   transition: 0.2s;
