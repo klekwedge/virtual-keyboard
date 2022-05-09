@@ -42,6 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   createKeys(registerMode, language);
 
+  const keyboardInfo = document.createElement("div");
+  keyboardInfo.classList.add("keyboard__info");
+  keyboardInfo.innerHTML = `<h2>Клавиатура создана в операционной системе Windows </h2> 
+  <h2>Для переключения языка комбинация: левыe shift + alt </h2>`;
+  document.querySelector("._container").append(keyboardInfo);
+
   document.addEventListener("keydown", (event) => {
     document.querySelector(`.${event.code}`).classList.add("_active");
 

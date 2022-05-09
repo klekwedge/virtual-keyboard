@@ -124,6 +124,7 @@ input {
 
 body {
   font-size: 16px;
+  background-color: #1C7279;
 }
 
 .wrapper {
@@ -175,6 +176,7 @@ textarea {
   background-color: #c4dfe6;
   padding: 15px 15px;
   border-radius: 2px;
+  margin-bottom: 30px;
 }
 
 .keyboard__row {
@@ -198,6 +200,12 @@ textarea {
   cursor: pointer;
 }
 
+.keyboard__key:hover {
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  background-color: #1C954A;
+}
+
 .keyboard__key:active {
   -webkit-transition: 0.1s;
   transition: 0.1s;
@@ -218,4 +226,17 @@ textarea {
 
 .Space {
   min-width: 460px;
+}
+
+.keyboard__info {
+  text-align: center;
+}
+
+.keyboard__info h2 {
+  color: white;
+  font-size: 18px;
+}
+
+.keyboard__info h2:not(:last-child) {
+  margin-bottom: 10px;
 }

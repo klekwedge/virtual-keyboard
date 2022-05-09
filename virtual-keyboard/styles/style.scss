@@ -34,6 +34,9 @@ input {
 
 body {
   font-size: 16px;
+  background-color: #1C7279;
+  // 052B41
+  //41957F
 }
 
 .wrapper {
@@ -77,6 +80,7 @@ textarea {
   background-color: #c4dfe6;
   padding: 15px 15px;
   border-radius: 2px;
+  margin-bottom: 30px;
 }
 
 .keyboard__row {
@@ -97,8 +101,11 @@ textarea {
   color: white;
   text-align: center;
   cursor: pointer;
-  // min-height: 65px;
 
+  &:hover{
+    transition: 0.4s;
+    background-color: #1C954A;
+  }
   &:active {
     transition: 0.1s;
     background-color: #004d47;
@@ -120,4 +127,15 @@ textarea {
 
 .ShiftLeft {
   // min-width: 230px;
+}
+
+.keyboard__info {
+  text-align: center;
+  h2 {
+    color: white;
+    font-size: 18px;
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+  }
 }
