@@ -2,8 +2,14 @@
 import { keyboard, specialKeyArr } from "./modules/keyboard-data";
 
 document.addEventListener("DOMContentLoaded", () => {
+  let language;
+  if (Boolean(localStorage.getItem("lang"))) {
+    language = localStorage.getItem("lang");
+  } else {
+    language = "ru";
+    localStorage.setItem("lang", "ru");
+  }
   let registerMode = "lowercase";
-  let language = "ru";
 
   function createElement(tag, parent, classes) {
     const newElement = document.createElement(tag);
@@ -37,15 +43,13 @@ document.addEventListener("DOMContentLoaded", () => {
   createKeys(registerMode, language);
 
   document.addEventListener("keydown", (event) => {
-    console.log(event.code);
-    // document.querySelector(`.${event.code}`).style.color = "red";
     document.querySelector(`.${event.code}`).classList.add("_active");
 
     if (event.code === "ShiftLeft") {
       document.addEventListener("keyup", (event) => {
         if (event.code === "AltLeft") {
-          // console.log('Comb!')
           language = language === "ru" ? "en" : "ru";
+          localStorage.setItem("lang", language);
           createKeys(registerMode, language);
         }
       });

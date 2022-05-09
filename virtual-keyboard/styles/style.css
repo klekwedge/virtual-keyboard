@@ -190,7 +190,7 @@ textarea {
   background-color: #128277;
   border: 1px solid black;
   border-radius: 3px;
-  padding: 20px 20px;
+  padding: 20px 15px;
   min-width: 68px;
   font-size: 20px;
   color: white;
@@ -210,11 +210,12 @@ textarea {
 .keyboard__key._active {
   -webkit-transition: 0.2s;
   transition: 0.2s;
+  background-color: #004d47;
   border-radius: 8px;
   -webkit-transform: scale(0.9);
           transform: scale(0.9);
 }
 
 .Space {
-  min-width: 458px;
+  min-width: 460px;
 }
