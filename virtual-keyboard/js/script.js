@@ -3,6 +3,7 @@ import { keyboard, specialKeyArr } from "./modules/keyboard-data";
 
 document.addEventListener("DOMContentLoaded", () => {
   let registerMode = "lowercase";
+  let language = "ru";
 
   function createElement(tag, parent, classes) {
     const newElement = document.createElement(tag);
@@ -33,16 +34,35 @@ document.addEventListener("DOMContentLoaded", () => {
   keyboardKeys.classList.add("keyboard__keys");
   document.querySelector("._container").append(keyboardKeys);
 
-  createKeys(registerMode);
+  createKeys(registerMode, language);
 
   document.addEventListener("keydown", (event) => {
+    console.log(event.code);
+    // document.querySelector(`.${event.code}`).style.color = "red";
+    document.querySelector(`.${event.code}`).classList.add("_active");
+
+    if (event.code === "ShiftLeft") {
+      document.addEventListener("keyup", (event) => {
+        if (event.code === "AltLeft") {
+          // console.log('Comb!')
+          language = language === "ru" ? "en" : "ru";
+          createKeys(registerMode, language);
+        }
+      });
+    }
+
     if (event.key === "Tab") {
       event.preventDefault();
     }
+
     addNewSymbol(event);
   });
 
-  function createKeys(registerMode) {
+  document.addEventListener("keyup", (event) => {
+    document.querySelector(`.${event.code}`).classList.remove("_active");
+  });
+
+  function createKeys(registerMode, language) {
     keyboardKeys.innerHTML = "";
     for (let i = 0; i < keyboard.length; i++) {
       const keyboardRow = document.createElement("ul");
@@ -52,18 +72,21 @@ document.addEventListener("DOMContentLoaded", () => {
       for (let j = 0; j < keyboard[i].length; j++) {
         const keyboardKey = document.createElement("li");
 
-        if (registerMode === "lowercase") {
+        if (registerMode === "lowercase" && language === "ru") {
           keyboardKey.textContent = keyboard[i][j][1];
-        } else {
+        } else if (registerMode === "uppercase" && language === "ru") {
           keyboardKey.textContent = keyboard[i][j][2];
+        } else if (registerMode === "lowercase" && language === "en") {
+          keyboardKey.textContent = keyboard[i][j][3];
+        } else if (registerMode === "uppercase" && language === "en") {
+          keyboardKey.textContent = keyboard[i][j][4];
         }
 
         keyboardKey.classList.add("keyboard__key", `${keyboard[i][j][0]}`);
         keyboardRow.append(keyboardKey);
 
         keyboardKey.addEventListener("click", (event) => {
-          console.log(specialCharacterCheck(event.target.classList[1]));
-
+          // console.log(specialCharacterCheck(event.target.classList[1]));
           if (!specialCharacterCheck(event.target.classList[1])) {
             textarea.textContent += keyboardKey.textContent;
           }
@@ -77,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function addNewSymbol(event) {
-    document.querySelector(`.${event.code}`).style.backgroundColor = "#02524C";
+    // document.querySelector(`.${event.code}`).style.backgroundColor = "#02524C";
     if (!specialCharacterCheck(event.code)) {
       textarea.textContent += event.key;
     } else {
@@ -88,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
           } else {
             registerMode = "lowercase";
           }
-          createKeys(registerMode);
+          createKeys(registerMode, language);
 
           break;
         case "Enter":
@@ -114,9 +137,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    setTimeout(() => {
-      document.querySelector(`.${event.code}`).style.backgroundColor =
-        "#128277";
-    }, 100);
+    // setTimeout(() => {
+    //   document.querySelector(`.${event.code}`).style.backgroundColor =
+    //     "#128277";
+    // }, 100);
   }
 });

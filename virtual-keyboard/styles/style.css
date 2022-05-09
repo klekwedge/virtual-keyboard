@@ -183,32 +183,29 @@ textarea {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  gap: 15px 15px;
+  gap: 10px 10px;
 }
 
 .keyboard__key {
   background-color: #128277;
   border: 1px solid black;
-  border-radius: 2px;
-  color: white;
+  border-radius: 3px;
+  padding: 20px 20px;
+  min-width: 68px;
   font-size: 20px;
-  padding: 20px 25px;
+  color: white;
+  text-align: center;
   cursor: pointer;
 }
 
-.keyboard__key:hover {
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  background-color: #004d47;
-}
-
-.keyboard__key:active {
-  -webkit-transition: 0.1s;
-  transition: 0.1s;
+.keyboard__key._active {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  border-radius: 8px;
   -webkit-transform: scale(0.9);
           transform: scale(0.9);
 }
 
 .Space {
-  min-width: 390px;
+  min-width: 458px;
 }
