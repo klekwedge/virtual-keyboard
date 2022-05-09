@@ -134,8 +134,29 @@ document.addEventListener("DOMContentLoaded", () => {
         case "Tab":
           textarea.value += "        ";
           break;
+        case "ArrowLeft":
+          moveBack();
+          break;
+        case "ArrowRight":
+          moveForward();
+          break;
       }
     }
-    console.log(textarea.value);
+    // console.log(getCursorPosition(textarea));
+  }
+  // move forward
+  // move back
+  function moveForward() {
+    const el = document.querySelector("textarea");
+    el.selectionStart++;
+    el.selectionEnd = el.selectionStart;
+  }
+
+  function moveBack() {
+    const el = document.querySelector("textarea");
+    if (el.selectionStart !== 0) {
+      el.selectionStart--;
+      el.selectionEnd = el.selectionStart;
+    }
   }
 });
