@@ -11,11 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   let registerMode = "lowercase";
 
- 
   const keyboardContainer = document.createElement("div");
-  keyboardContainer.classList.add("_container");;
+  keyboardContainer.classList.add("_container");
   document.body.append(keyboardContainer);
-
 
   const textarea = document.createElement("textarea");
   textarea.classList.add("keyboard__textarea");
@@ -40,34 +38,34 @@ document.addEventListener("DOMContentLoaded", () => {
   keyboardContainer.append(keyboardInfo);
 
   document.addEventListener("keydown", (event) => {
-      if (event.key === "Tab") {
-      event.preventDefault();
-    }
+    event.preventDefault();
+
+    // if (event.code === "Tab") {
+    //   event.preventDefault();
+    // }
 
     document
       .querySelector(`li[data-key-name='${event.code}']`)
       .classList.add("_active");
 
-    
-    // if (event.code === "ShiftLeft") {
-    //   document.addEventListener("keyup", (event) => {
-    //     if (event.code === "AltLeft") {
-    //       language = language === "ru" ? "en" : "ru";
-    //       localStorage.setItem("lang", language);
-    //       createKeys(registerMode, language);
-    //     }
-    //   });
-    // }
+    if (event.code === "ShiftLeft") {
+      document.addEventListener("keyup", (event) => {
+        if (event.code === "AltLeft") {
+          language = language === "ru" ? "en" : "ru";
+          localStorage.setItem("lang", language);
+          createKeys(registerMode, language);
+        }
+      });
+    }
 
-  
     addNewSymbol(event.code, event.key);
   });
 
-  // document.addEventListener("keyup", (event) => {
-  //   document
-  //     .querySelector(`li[data-key-name='${event.code}']`)
-  //     .classList.remove("_active");
-  // });
+  document.addEventListener("keyup", (event) => {
+    document
+      .querySelector(`li[data-key-name='${event.code}']`)
+      .classList.remove("_active");
+  });
 
   function createKeys(registerMode, language) {
     keyboardKeys.innerHTML = "";
@@ -105,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function addNewSymbol(keyCode, keyName) {
-
     if (!specialCharacterCheck(keyCode)) {
       textarea.value += keyName;
     } else {
@@ -139,6 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
           break;
       }
     }
-    console.log(textarea.value)
+    console.log(textarea.value);
   }
 });
