@@ -11,25 +11,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   let registerMode = "lowercase";
 
-  function createElement(tag, parent, classes) {
-    const newElement = document.createElement(tag);
+ 
+  const keyboardContainer = document.createElement("div");
+  keyboardContainer.classList.add("_container");;
+  document.body.append(keyboardContainer);
 
-    classes = classes.split(" ");
-    if (classes !== "") {
-      classes.forEach((elementClass) => {
-        newElement.classList.add(elementClass);
-      });
-    }
-
-    parent.append(newElement);
-  }
-
-  createElement("div", document.body, "_container");
 
   const textarea = document.createElement("textarea");
   textarea.classList.add("keyboard__textarea");
   textarea.autofocus = true;
-  document.querySelector("._container").append(textarea);
+  keyboardContainer.append(textarea);
 
   textarea.addEventListener("blur", (event) => {
     textarea.autofocus = true;
@@ -38,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const keyboardKeys = document.createElement("div");
   keyboardKeys.classList.add("keyboard__keys");
-  document.querySelector("._container").append(keyboardKeys);
+  keyboardContainer.append(keyboardKeys);
 
   createKeys(registerMode, language);
 
@@ -46,31 +37,37 @@ document.addEventListener("DOMContentLoaded", () => {
   keyboardInfo.classList.add("keyboard__info");
   keyboardInfo.innerHTML = `<h2>Клавиатура создана в операционной системе Windows </h2> 
   <h2>Для переключения языка комбинация: левыe shift + alt </h2>`;
-  document.querySelector("._container").append(keyboardInfo);
+  keyboardContainer.append(keyboardInfo);
 
   document.addEventListener("keydown", (event) => {
-    document.querySelector(`.${event.code}`).classList.add("_active");
-
-    if (event.code === "ShiftLeft") {
-      document.addEventListener("keyup", (event) => {
-        if (event.code === "AltLeft") {
-          language = language === "ru" ? "en" : "ru";
-          localStorage.setItem("lang", language);
-          createKeys(registerMode, language);
-        }
-      });
-    }
-
-    if (event.key === "Tab") {
+      if (event.key === "Tab") {
       event.preventDefault();
     }
 
-    addNewSymbol(event);
+    document
+      .querySelector(`li[data-key-name='${event.code}']`)
+      .classList.add("_active");
+
+    
+    // if (event.code === "ShiftLeft") {
+    //   document.addEventListener("keyup", (event) => {
+    //     if (event.code === "AltLeft") {
+    //       language = language === "ru" ? "en" : "ru";
+    //       localStorage.setItem("lang", language);
+    //       createKeys(registerMode, language);
+    //     }
+    //   });
+    // }
+
+  
+    addNewSymbol(event.code, event.key);
   });
 
-  document.addEventListener("keyup", (event) => {
-    document.querySelector(`.${event.code}`).classList.remove("_active");
-  });
+  // document.addEventListener("keyup", (event) => {
+  //   document
+  //     .querySelector(`li[data-key-name='${event.code}']`)
+  //     .classList.remove("_active");
+  // });
 
   function createKeys(registerMode, language) {
     keyboardKeys.innerHTML = "";
@@ -92,14 +89,12 @@ document.addEventListener("DOMContentLoaded", () => {
           keyboardKey.textContent = keyboard[i][j][4];
         }
 
-        keyboardKey.classList.add("keyboard__key", `${keyboard[i][j][0]}`);
+        keyboardKey.classList.add("keyboard__key");
+        keyboardKey.setAttribute("data-key-name", `${keyboard[i][j][0]}`);
         keyboardRow.append(keyboardKey);
 
         keyboardKey.addEventListener("click", (event) => {
-          // console.log(specialCharacterCheck(event.target.classList[1]));
-          if (!specialCharacterCheck(event.target.classList[1])) {
-            textarea.textContent += keyboardKey.textContent;
-          }
+          addNewSymbol(event.target.dataset.keyName, event.target.textContent);
         });
       }
     }
@@ -109,12 +104,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return specialKeyArr.includes(keyDesignation);
   }
 
-  function addNewSymbol(event) {
-    // document.querySelector(`.${event.code}`).style.backgroundColor = "#02524C";
-    if (!specialCharacterCheck(event.code)) {
-      textarea.textContent += event.key;
+  function addNewSymbol(keyCode, keyName) {
+
+    if (!specialCharacterCheck(keyCode)) {
+      textarea.value += keyName;
     } else {
-      switch (event.code) {
+      switch (keyCode) {
         case "CapsLock":
           if (registerMode === "lowercase") {
             registerMode = "uppercase";
@@ -125,31 +120,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
           break;
         case "Enter":
-          textarea.textContent += "\n";
+          textarea.value += "\n";
           break;
         case "Delete":
-          // textarea.textContent = "";
+          // textarea.value = "";
           break;
         case "Backspace":
-          textarea.textContent = textarea.textContent.substring(
+          textarea.value = textarea.value.substring(
             0,
-            textarea.textContent.length - 1
+            textarea.value.length - 1
           );
           break;
         case "Space":
-          textarea.textContent += " ";
+          textarea.value += " ";
           break;
         case "Tab":
-          console.log("!");
-          textarea.textContent += "        ";
-          console.log(textarea.textContent);
+          textarea.value += "        ";
           break;
       }
     }
-
-    // setTimeout(() => {
-    //   document.querySelector(`.${event.code}`).style.backgroundColor =
-    //     "#128277";
-    // }, 100);
+    console.log(textarea.value)
   }
 });
