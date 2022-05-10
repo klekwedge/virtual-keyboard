@@ -53,8 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
           language = language === "ru" ? "en" : "ru";
           localStorage.setItem("lang", language);
           changeKeys(registerMode, language);
-        } else {
-          // console.log(event.code);
         }
       });
     } else {
@@ -104,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
-  }
+  } 
 
   function changeKeys(registerMode, language) {
     for (let i = 0; i < keyboard.length; i++) {
@@ -133,22 +131,17 @@ document.addEventListener("DOMContentLoaded", () => {
   function addNewSymbol(keyCode, keyName) {
     if (!specialCharacterCheck(keyCode)) {
       const buffSelectionStart = textarea.selectionStart;
-      // console.log("Befor SelectionStart: " + textarea.selectionStart);
 
       textarea.value =
         textarea.value.slice(0, textarea.selectionStart) +
         keyName +
         textarea.value.slice(textarea.selectionStart);
 
-      // console.log("After SelectionStart: " + textarea.selectionStart);
-      // console.log("Value: " + textarea.value);
-
       textarea.selectionStart = buffSelectionStart + 1;
       textarea.selectionEnd = textarea.selectionStart;
     } else {
       switch (keyCode) {
         case "CapsLock":
-          // console.log(document.querySelector(`li[data-key-name='${keyCode}']`));
 
           if (flagCapsLock) {
             document
@@ -183,8 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             textarea.selectionStart = buffSelectionStart;
             textarea.selectionEnd = textarea.selectionStart;
-          } else {
-            console.log("!");
           }
 
           break;
@@ -220,7 +211,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (textarea.selectionStart !== 0) {
       textarea.selectionStart--;
       textarea.selectionEnd = textarea.selectionStart;
-      console.log(textarea.selectionStart);
     }
   }
 });
