@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   keyboardKeys.classList.add("keyboard__keys");
   keyboardContainer.append(keyboardKeys);
 
-  createKeys(registerMode, language);
+  initKeys(registerMode, language);
 
   const keyboardInfo = document.createElement("div");
   keyboardInfo.classList.add("keyboard__info");
@@ -43,10 +43,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // if (event.code === "Tab") {
     //   event.preventDefault();
     // }
-
     document
       .querySelector(`li[data-key-name='${event.code}']`)
       .classList.add("_active");
+
+    // if (event.code === "CapsLock") {
+    //   console.log(document.querySelector(`li[data-key-name='${event.code}']`));
+
+    //   document.querySelector(
+    //     `li[data-key-name='${event.code}']`
+    //   ).style.background = "red";
+    // }
 
     if (event.code === "ShiftLeft") {
       document.addEventListener("keyup", (event) => {
@@ -61,17 +68,24 @@ document.addEventListener("DOMContentLoaded", () => {
     addNewSymbol(event.code, event.key);
   });
 
+  let flagCapsLock = false;
   document.addEventListener("keyup", (event) => {
-    document
-      .querySelector(`li[data-key-name='${event.code}']`)
-      .classList.remove("_active");
+
+    if (event.code !== "CapsLock" || flagCapsLock) {
+      document
+        .querySelector(`li[data-key-name='${event.code}']`)
+        .classList.remove("_active");
+        flagCapsLock = false;
+    } else {
+      flagCapsLock = true;
+    }
   });
 
-  function createKeys(registerMode, language) {
-    keyboardKeys.innerHTML = "";
+  function initKeys(registerMode, language) {
     for (let i = 0; i < keyboard.length; i++) {
       const keyboardRow = document.createElement("ul");
       keyboardRow.classList.add("keyboard__row");
+      keyboardRow.setAttribute("id", `keyboard__row-${i + 1}`);
       document.querySelector(".keyboard__keys").append(keyboardRow);
 
       for (let j = 0; j < keyboard[i].length; j++) {
@@ -91,9 +105,37 @@ document.addEventListener("DOMContentLoaded", () => {
         keyboardKey.setAttribute("data-key-name", `${keyboard[i][j][0]}`);
         keyboardRow.append(keyboardKey);
 
+        // if (capsLockKey && keyboard[i][j][0] === "CapsLock") {
+        //   console.log("!");
+        //   if (capsLockKey.classList.contains("_active")) {
+        //     document
+        //       .querySelector(`li[data-key-name='CapsLock']`)
+        //       .classList.re("_active");
+        //   }
+        // }
+
         keyboardKey.addEventListener("click", (event) => {
           addNewSymbol(event.target.dataset.keyName, event.target.textContent);
         });
+      }
+    }
+  }
+
+  function createKeys(registerMode, language) {
+    for (let i = 0; i < keyboard.length; i++) {
+      const keyboardRow = document.querySelectorAll(
+        `#keyboard__row-${i + 1} li`
+      );
+      for (let j = 0; j < keyboardRow.length; j++) {
+        if (registerMode === "lowercase" && language === "ru") {
+          keyboardRow[j].textContent = keyboard[i][j][1];
+        } else if (registerMode === "uppercase" && language === "ru") {
+          keyboardRow[j].textContent = keyboard[i][j][2];
+        } else if (registerMode === "lowercase" && language === "en") {
+          keyboardRow[j].textContent = keyboard[i][j][3];
+        } else if (registerMode === "uppercase" && language === "en") {
+          keyboardRow[j].textContent = keyboard[i][j][4];
+        }
       }
     }
   }
@@ -114,10 +156,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // console.log("After SelectionStart: " + textarea.selectionStart);
       // console.log("Value: " + textarea.value);
-      
+
       textarea.selectionStart = buffSelectionStart + 1;
       textarea.selectionEnd = textarea.selectionStart;
-    
     } else {
       switch (keyCode) {
         case "CapsLock":
@@ -127,7 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
             registerMode = "lowercase";
           }
           createKeys(registerMode, language);
-
           break;
         case "Enter":
           textarea.value += "\n";

@@ -33,7 +33,7 @@ const keyboard = [
     ["Delete", "Del", "Del", "Del", "Del"],
   ],
   [
-    ["CapsLock", "CapsLock", "CapsLock", "CapsLock", "CapsLock", "CapsLock"],
+    ["CapsLock", "CapsLock", "CapsLock", "CapsLock", "CapsLock"],
     ["KeyA", "ф", "Ф", "a", "A"],
     ["KeyS", "ы", "Ы", "s", "S"],
     ["KeyD", "в", "В", "d", "D"],
