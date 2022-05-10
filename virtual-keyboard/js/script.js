@@ -40,27 +40,16 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keydown", (event) => {
     event.preventDefault();
 
-    // if (event.code === "Tab") {
-    //   event.preventDefault();
-    // }
     document
       .querySelector(`li[data-key-name='${event.code}']`)
       .classList.add("_active");
-
-    // if (event.code === "CapsLock") {
-    //   console.log(document.querySelector(`li[data-key-name='${event.code}']`));
-
-    //   document.querySelector(
-    //     `li[data-key-name='${event.code}']`
-    //   ).style.background = "red";
-    // }
 
     if (event.code === "ShiftLeft") {
       document.addEventListener("keyup", (event) => {
         if (event.code === "AltLeft") {
           language = language === "ru" ? "en" : "ru";
           localStorage.setItem("lang", language);
-          createKeys(registerMode, language);
+          changeKeys(registerMode, language);
         }
       });
     }
@@ -70,12 +59,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let flagCapsLock = false;
   document.addEventListener("keyup", (event) => {
-
     if (event.code !== "CapsLock" || flagCapsLock) {
       document
         .querySelector(`li[data-key-name='${event.code}']`)
         .classList.remove("_active");
-        flagCapsLock = false;
+      flagCapsLock = false;
     } else {
       flagCapsLock = true;
     }
@@ -105,15 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
         keyboardKey.setAttribute("data-key-name", `${keyboard[i][j][0]}`);
         keyboardRow.append(keyboardKey);
 
-        // if (capsLockKey && keyboard[i][j][0] === "CapsLock") {
-        //   console.log("!");
-        //   if (capsLockKey.classList.contains("_active")) {
-        //     document
-        //       .querySelector(`li[data-key-name='CapsLock']`)
-        //       .classList.re("_active");
-        //   }
-        // }
-
         keyboardKey.addEventListener("click", (event) => {
           addNewSymbol(event.target.dataset.keyName, event.target.textContent);
         });
@@ -121,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function createKeys(registerMode, language) {
+  function changeKeys(registerMode, language) {
     for (let i = 0; i < keyboard.length; i++) {
       const keyboardRow = document.querySelectorAll(
         `#keyboard__row-${i + 1} li`
@@ -167,19 +146,21 @@ document.addEventListener("DOMContentLoaded", () => {
           } else {
             registerMode = "lowercase";
           }
-          createKeys(registerMode, language);
+          changeKeys(registerMode, language);
           break;
         case "Enter":
           textarea.value += "\n";
           break;
         case "Delete":
           if (textarea.value !== "") {
-            console.log(textarea.selectionStart);
+            const buffSelectionStart = textarea.selectionStart;
+
             textarea.value =
               textarea.value.slice(0, textarea.selectionStart) +
               textarea.value.slice(textarea.selectionStart + 1);
-            // textarea.selectionStart --;
-            // textarea.selectionEnd = 1;
+
+            textarea.selectionStart = buffSelectionStart;
+            textarea.selectionEnd = textarea.selectionStart;
           } else {
             console.log("!");
           }
