@@ -225,7 +225,23 @@ textarea {
 }
 
 [data-key-name='Space'] {
-  min-width: 460px;
+  min-width: 520px;
+}
+
+[data-key-name='Tab'] {
+  min-width: 90px;
+}
+
+[data-key-name='Enter'] {
+  min-width: 140px;
+}
+
+[data-key-name='ShiftLeft'] {
+  min-width: 130px;
+}
+
+[data-key-name='ShiftRight'] {
+  min-width: 130px;
 }
 
 .keyboard__info {
