@@ -44,29 +44,34 @@ document.addEventListener("DOMContentLoaded", () => {
       .querySelector(`li[data-key-name='${event.code}']`)
       .classList.add("_active");
 
-    if (event.code === "ShiftLeft") {
+    if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+      registerMode = registerMode === "uppercase" ? "lowercase" : "uppercase";
+      changeKeys(registerMode, language);
+
       document.addEventListener("keyup", (event) => {
         if (event.code === "AltLeft") {
           language = language === "ru" ? "en" : "ru";
           localStorage.setItem("lang", language);
           changeKeys(registerMode, language);
+        } else {
+          // console.log(event.code);
         }
       });
+    } else {
+      addNewSymbol(event.code, event.key);
     }
-
-    addNewSymbol(event.code, event.key);
   });
 
-  // let flagCapsLock = false;
   document.addEventListener("keyup", (event) => {
+    if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+      registerMode = registerMode === "uppercase" ? "lowercase" : "uppercase";
+      changeKeys(registerMode, language);
+    }
+
     if (event.code !== "CapsLock") {
-      // console.log('oPa')
       document
         .querySelector(`li[data-key-name='${event.code}']`)
         .classList.remove("_active");
-      // flagCapsLock = false;
-    } else {
-      // flagCapsLock = true;
     }
   });
 
@@ -143,7 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       switch (keyCode) {
         case "CapsLock":
-       
           // console.log(document.querySelector(`li[data-key-name='${keyCode}']`));
 
           if (flagCapsLock) {
