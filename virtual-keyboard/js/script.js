@@ -104,9 +104,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function addNewSymbol(keyCode, keyName) {
     if (!specialCharacterCheck(keyCode)) {
-      textarea.value += keyName;
-      console.log(textarea.selectionStart)
-      // textarea.value = textarea.value.slice(0, textarea.selectionStart) + textarea.value.slice(textarea.selectionStart + 1);
+      const buffSelectionStart = textarea.selectionStart;
+      // console.log("Befor SelectionStart: " + textarea.selectionStart);
+
+      textarea.value =
+        textarea.value.slice(0, textarea.selectionStart) +
+        keyName +
+        textarea.value.slice(textarea.selectionStart);
+
+      // console.log("After SelectionStart: " + textarea.selectionStart);
+      // console.log("Value: " + textarea.value);
+      
+      textarea.selectionStart = buffSelectionStart + 1;
+      textarea.selectionEnd = textarea.selectionStart;
+    
     } else {
       switch (keyCode) {
         case "CapsLock":
@@ -124,7 +135,9 @@ document.addEventListener("DOMContentLoaded", () => {
         case "Delete":
           if (textarea.value !== "") {
             console.log(textarea.selectionStart);
-            textarea.value = textarea.value.slice(0, textarea.selectionStart) + textarea.value.slice(textarea.selectionStart + 1);
+            textarea.value =
+              textarea.value.slice(0, textarea.selectionStart) +
+              textarea.value.slice(textarea.selectionStart + 1);
             // textarea.selectionStart --;
             // textarea.selectionEnd = 1;
           } else {
@@ -155,16 +168,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function moveForward() {
-    const el = document.querySelector("textarea");
-    el.selectionStart++;
-    el.selectionEnd = el.selectionStart;
+    const etextareal = document.querySelector("textarea");
+    textarea.selectionStart++;
+    textarea.selectionEnd = textarea.selectionStart;
   }
 
   function moveBack() {
-    const el = document.querySelector("textarea");
-    if (el.selectionStart !== 0) {
-      el.selectionStart--;
-      el.selectionEnd = el.selectionStart;
+    if (textarea.selectionStart !== 0) {
+      textarea.selectionStart--;
+      textarea.selectionEnd = textarea.selectionStart;
+      console.log(textarea.selectionStart);
     }
   }
 });
