@@ -57,15 +57,16 @@ document.addEventListener("DOMContentLoaded", () => {
     addNewSymbol(event.code, event.key);
   });
 
-  let flagCapsLock = false;
+  // let flagCapsLock = false;
   document.addEventListener("keyup", (event) => {
-    if (event.code !== "CapsLock" || flagCapsLock) {
+    if (event.code !== "CapsLock") {
+      // console.log('oPa')
       document
         .querySelector(`li[data-key-name='${event.code}']`)
         .classList.remove("_active");
-      flagCapsLock = false;
+      // flagCapsLock = false;
     } else {
-      flagCapsLock = true;
+      // flagCapsLock = true;
     }
   });
 
@@ -123,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return specialKeyArr.includes(keyDesignation);
   }
 
+  let flagCapsLock = true;
   function addNewSymbol(keyCode, keyName) {
     if (!specialCharacterCheck(keyCode)) {
       const buffSelectionStart = textarea.selectionStart;
@@ -141,6 +143,22 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       switch (keyCode) {
         case "CapsLock":
+       
+          // console.log(document.querySelector(`li[data-key-name='${keyCode}']`));
+
+          if (flagCapsLock) {
+            document
+              .querySelector(`li[data-key-name='${keyCode}']`)
+              .classList.remove("_active");
+            flagCapsLock = false;
+          } else {
+            flagCapsLock = true;
+          }
+
+          document
+            .querySelector(`li[data-key-name='${keyCode}']`)
+            .classList.toggle("_active");
+
           if (registerMode === "lowercase") {
             registerMode = "uppercase";
           } else {
